@@ -7,7 +7,7 @@
     >
         <Build>
             <Settings
-                ApplicationIcon = "app.ico"
+                ApplicationIcon = "polip.ico"
                 AssemblyKeyContainerName = ""
                 AssemblyName = "Pol-IPw"
                 AssemblyOriginatorKeyFile = ""
@@ -88,7 +88,7 @@
             <Include>
                 <File
                     RelPath = "app.ico"
-                    BuildAction = "EmbeddedResource"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "AssemblyInfo.cs"

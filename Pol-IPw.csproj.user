@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP>
         <Build>
-            <Settings ReferencePath = "" >
+            <Settings ReferencePath = "E:\Mis Documentos\Visual Studio Projects\Pol-IPw;" >
                 <Config
                     Name = "Debug"
                     EnableASPDebugging = "false"

@@ -82,10 +82,10 @@ namespace Pol_IPw
 						}
 
 						Index1=Index2;
-						Index2=IN.IndexOf(" ",Index1);
+						Index1++;
+						Index2=IN.IndexOf("/",Index1);
 						if(Index2>0 && Index2!=Index1)
 						{
-							Index1++; 
 							string temp=IN.Substring(Index1,Index2-Index1);
 							AsingSpeed=Convert.ToInt32(IN.Substring(Index1,Index2-Index1));
 							
@@ -116,7 +116,7 @@ namespace Pol_IPw
 						OnError(this,new System.EventArgs());
 				}
 			}
-			else if(IN.CompareTo("Report")==0)//If recive a report message rise onnewData
+			else if(IN.StartsWith("Report"))//If recive a report message rise onnewData
 			{
 				this.Report=true;
 				if (OnNewData != null)
@@ -148,6 +148,7 @@ namespace Pol_IPw
 			private System.Windows.Forms.StatusBarPanel statusBarPanelDown;
 			private System.Windows.Forms.StatusBarPanel statusBarPanelStatus;
 			private System.Windows.Forms.StatusBar statusBarStatus;
+			private System.Windows.Forms.ToolTip toolTipDobleClick;
 			private uint count=0;//Counter times of socket realese with no data in
 
 			
@@ -170,10 +171,15 @@ namespace Pol_IPw
 				this.BufferINSocket.OnError += new System.EventHandler(this.OnError_Event);
 				
 				this.timerSocket.Tick += new System.EventHandler(this.timerSocket_Tick);				
+				this.SetStyle(System.Windows.Forms.ControlStyles.StandardClick,true);
 				
-				System.Drawing.Rectangle ScreenBound=new System.Drawing.Rectangle();
-				this.Location.X=0;
-				this.Location.Y=0;
+				
+				Screen Pantalla = System.Windows.Forms.Screen.PrimaryScreen;
+				System.Drawing.Rectangle ScreenBound=Pantalla.Bounds;
+				this.SetDesktopLocation(ScreenBound.Width-this.Width-25,25);
+				this.toolTipDobleClick.SetToolTip(this,"DoubleClick->Minimize");
+				this.toolTipDobleClick.SetToolTip(this.progressBarSpeed,"DoubleClick->Minimize");
+
 				//
 				// TODO: Add any constructor code after InitializeComponent call
 				//
@@ -202,19 +208,21 @@ namespace Pol_IPw
 			private void InitializeComponent()
 			{
 				this.components = new System.ComponentModel.Container();
+				System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(FormMain));
 				this.progressBarSpeed = new System.Windows.Forms.ProgressBar();
 				this.pictureBoxMark = new System.Windows.Forms.PictureBox();
 				this.timerSocket = new System.Windows.Forms.Timer(this.components);
 				this.statusBarStatus = new System.Windows.Forms.StatusBar();
 				this.statusBarPanelDown = new System.Windows.Forms.StatusBarPanel();
 				this.statusBarPanelStatus = new System.Windows.Forms.StatusBarPanel();
+				this.toolTipDobleClick = new System.Windows.Forms.ToolTip(this.components);
 				((System.ComponentModel.ISupportInitialize)(this.statusBarPanelDown)).BeginInit();
 				((System.ComponentModel.ISupportInitialize)(this.statusBarPanelStatus)).BeginInit();
 				this.SuspendLayout();
 				// 
 				// progressBarSpeed
 				// 
-				this.progressBarSpeed.Location = new System.Drawing.Point(6, 12);
+				this.progressBarSpeed.Location = new System.Drawing.Point(6, 10);
 				this.progressBarSpeed.Name = "progressBarSpeed";
 				this.progressBarSpeed.Size = new System.Drawing.Size(112, 8);
 				this.progressBarSpeed.TabIndex = 2;
@@ -223,7 +231,7 @@ namespace Pol_IPw
 				// 
 				this.pictureBoxMark.BackColor = System.Drawing.Color.Red;
 				this.pictureBoxMark.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-				this.pictureBoxMark.Location = new System.Drawing.Point(6, 6);
+				this.pictureBoxMark.Location = new System.Drawing.Point(6, 4);
 				this.pictureBoxMark.Name = "pictureBoxMark";
 				this.pictureBoxMark.Size = new System.Drawing.Size(8, 21);
 				this.pictureBoxMark.TabIndex = 3;
@@ -237,15 +245,17 @@ namespace Pol_IPw
 				// 
 				// statusBarStatus
 				// 
-				this.statusBarStatus.Location = new System.Drawing.Point(0, 30);
+				this.statusBarStatus.Dock = System.Windows.Forms.DockStyle.None;
+				this.statusBarStatus.Location = new System.Drawing.Point(0, 26);
 				this.statusBarStatus.Name = "statusBarStatus";
 				this.statusBarStatus.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
 																								   this.statusBarPanelDown,
 																								   this.statusBarPanelStatus});
 				this.statusBarStatus.ShowPanels = true;
-				this.statusBarStatus.Size = new System.Drawing.Size(122, 16);
+				this.statusBarStatus.Size = new System.Drawing.Size(122, 18);
 				this.statusBarStatus.SizingGrip = false;
 				this.statusBarStatus.TabIndex = 4;
+				this.statusBarStatus.DoubleClick += new System.EventHandler(this.FormMain_DoubleClick);
 				// 
 				// statusBarPanelDown
 				// 
@@ -256,22 +266,33 @@ namespace Pol_IPw
 				// 
 				this.statusBarPanelStatus.Width = 65;
 				// 
+				// toolTipDobleClick
+				// 
+				this.toolTipDobleClick.AutoPopDelay = 3000;
+				this.toolTipDobleClick.InitialDelay = 500;
+				this.toolTipDobleClick.ReshowDelay = 500;
+				this.toolTipDobleClick.ShowAlways = true;
+				// 
 				// FormMain
 				// 
+				this.AutoScale = false;
 				this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-				this.ClientSize = new System.Drawing.Size(122, 46);
+				this.ClientSize = new System.Drawing.Size(120, 36);
 				this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																			  this.statusBarStatus,
 																			  this.progressBarSpeed,
 																			  this.pictureBoxMark});
-				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+//				this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 				this.MaximizeBox = false;
+				this.MinimizeBox = false;
 				this.Name = "FormMain";
-				this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+				this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 				this.Text = "Pol-IP";
 				this.TopMost = true;
 				this.Closing += new System.ComponentModel.CancelEventHandler(this.FormMain_Closing);
 				this.Load += new System.EventHandler(this.FormMain_Load);
+				this.DoubleClick += new System.EventHandler(this.FormMain_DoubleClick);
 				((System.ComponentModel.ISupportInitialize)(this.statusBarPanelDown)).EndInit();
 				((System.ComponentModel.ISupportInitialize)(this.statusBarPanelStatus)).EndInit();
 				this.ResumeLayout(false);
@@ -306,29 +327,21 @@ namespace Pol_IPw
 			}
 			private void OnNewData_Event(object sender, System.EventArgs e)
 			{
+				this.count=0;//Reset the counter of no data in
+
 				if(this.BufferINSocket.Report)//If report is true send start to the server
 				{
-					byte[] Mensaje;
-					System.Net.IPEndPoint Server;
-					Server = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("230.0.0.1"),20002);
-					Mensaje = System.Text.Encoding.Default.GetBytes("Start");
-					try
-					{
-						this.UdpOut.Send(Mensaje,Mensaje.Length,Server);
-					}
-					catch(Exception ex)
-					{	
-						this.statusBarPanelDown.Text=ex.Message;
-					}
+					this.Enviar("Start");
+					this.BufferINSocket.Report=false;
 				}
 				else
 				{
-
 					float FSpeed;
-					this.count=0;//Reset the counter of no data in
-					
 					this.progressBarSpeed.Maximum=this.BufferINSocket.LinkSpeed;
-					this.progressBarSpeed.Value=this.BufferINSocket.ActualSpeed;
+					if(this.BufferINSocket.ActualSpeed > this.progressBarSpeed.Maximum)
+						this.progressBarSpeed.Value=this.progressBarSpeed.Maximum;
+                    else
+						this.progressBarSpeed.Value=this.BufferINSocket.ActualSpeed;
 					//Calculate the place of the mark in the progressbar
 					this.pictureBoxMark.Left=this.progressBarSpeed.Left
 						+ ((this.BufferINSocket.AsingSpeed * this.progressBarSpeed.Width)
@@ -337,7 +350,8 @@ namespace Pol_IPw
 					FSpeed=System.Convert.ToSingle(this.BufferINSocket.ActualSpeed);
 					FSpeed=FSpeed/1024;
 					this.statusBarPanelDown.Text=FSpeed.ToString("F") + " Kb/s";
-					if(this.WindowState==0)//If the windows is minimize send text to title
+					this.statusBarPanelStatus.Text="";
+					if(this.WindowState==System.Windows.Forms.FormWindowState.Normal)//If the windows is minimize send text to title
 					{
 						this.Text="Pol-IP";
 					}
@@ -359,14 +373,15 @@ namespace Pol_IPw
 						this.statusBarPanelDown.Text="";
 						this.pictureBoxMark.Left=this.progressBarSpeed.Left;
 						this.progressBarSpeed.Value=0;
+						this.Enviar("Start");
 					}
 					else
 					{
 						if(count==0)//If 0 means data arrived so clean errors
 							this.statusBarPanelStatus.Text="";
-						else if(count==1)//One time say no data warning
+						else if(count==3)//One time say no data warning
 							this.statusBarPanelStatus.Text="No Data";
-						else//More times draw points
+						else if(count>4)//More times draw points
 							this.statusBarPanelStatus.Text=this.statusBarPanelStatus.Text + ".";
 						count++;
 					}
@@ -378,34 +393,33 @@ namespace Pol_IPw
 					this.pictureBoxMark.Left=this.progressBarSpeed.Left;
 					this.statusBarPanelStatus.Text=this.BufferINSocket.Error;
 					this.statusBarPanelDown.Text="";
+					this.count=5;
 				}
 			}
 
 			private void FormMain_Load(object sender, System.EventArgs e)
 			{
 				//Send start message to server
-				byte[] Mensaje;
-				System.Net.IPEndPoint Server;
-				Server = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("230.0.0.1"),20002);
-				Mensaje = System.Text.Encoding.Default.GetBytes("Start");
-				try
-				{
-					this.UdpOut.Send(Mensaje,Mensaje.Length,Server);
-					this.count=0;
-				}
-				catch(Exception ex)
-				{	
-					this.statusBarPanelDown.Text=ex.Message;
-				}
+				this.Enviar("Start");
 			}
 
 			private void FormMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 			{
 				//Send stop message on exit
+				this.Enviar("Stop");
+				
+			}
+
+			private void FormMain_DoubleClick(object sender, System.EventArgs e)
+			{
+				this.WindowState=System.Windows.Forms.FormWindowState.Minimized;
+			}
+			private void Enviar(string mensajes)
+			{
 				byte[] Mensaje;
 				System.Net.IPEndPoint Server;
 				Server = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("230.0.0.1"),20002);
-				Mensaje = System.Text.Encoding.Default.GetBytes("Stop");
+				Mensaje = System.Text.Encoding.Default.GetBytes(mensajes);
 				try
 				{
 					this.UdpOut.Send(Mensaje,Mensaje.Length,Server);
