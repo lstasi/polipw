@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pol-IPw", "Pol-IPw.csproj", "{C2C04165-D56A-447D-884B-AA8469445785}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Pol-IPwInstaller", "..\Pol-IPwInstaller\Pol-IPwInstaller.vdproj", "{1AE86507-C14E-4B93-BFA2-CEC8F0335C49}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{C2C04165-D56A-447D-884B-AA8469445785}.Debug.ActiveCfg = Debug|.NET
+		{C2C04165-D56A-447D-884B-AA8469445785}.Debug.Build.0 = Debug|.NET
+		{C2C04165-D56A-447D-884B-AA8469445785}.Release.ActiveCfg = Release|.NET
+		{C2C04165-D56A-447D-884B-AA8469445785}.Release.Build.0 = Release|.NET
+		{1AE86507-C14E-4B93-BFA2-CEC8F0335C49}.Debug.ActiveCfg = Debug
+		{1AE86507-C14E-4B93-BFA2-CEC8F0335C49}.Release.ActiveCfg = Release
+		{1AE86507-C14E-4B93-BFA2-CEC8F0335C49}.Release.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
